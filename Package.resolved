@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Bencode",
+        "repositoryURL": "https://github.com/bluk/bencode.git",
+        "state": {
+          "branch": null,
+          "revision": "530252b2845d05e6c554f11c8c4efced1a4108b3",
+          "version": "0.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
