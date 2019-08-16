@@ -8,17 +8,21 @@ let package = Package(
     products: [
         .library(
             name: "BTMetainfo",
-            targets: ["BTMetainfo"]),
+            targets: ["BTMetainfo"]
+        ),
     ],
     dependencies: [
-        .package(url: "https://github.com/bluk/bencode.git", from: "0.1.0"),
+        .package(url: "https://github.com/IBM-Swift/BlueCryptor.git", .upToNextMajor(from: "1.0.31")),
+        .package(url: "https://github.com/bluk/bencode.git", .upToNextMajor(from: "0.1.0")),
     ],
     targets: [
         .target(
             name: "BTMetainfo",
-            dependencies: ["Bencode"]),
+            dependencies: ["Bencode", "Cryptor"]
+        ),
         .testTarget(
             name: "BTMetainfoTests",
-            dependencies: ["BTMetainfo"]),
+            dependencies: ["BTMetainfo"]
+        ),
     ]
 )

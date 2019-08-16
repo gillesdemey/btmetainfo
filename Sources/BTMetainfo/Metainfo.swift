@@ -12,10 +12,11 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import CommonCrypto
 import Foundation
 
 import Bencode
+
+import Cryptor
 
 /// A torrent file's data.
 public struct Metainfo: Codable, Equatable {
@@ -76,20 +77,12 @@ public struct Info: Codable, Equatable {
         guard let bdecoder = decoder as? _BencodeDecoder else {
             fatalError("Decoding with wrong decoder.")
         }
-        var hash = Data(count: Int(CC_SHA1_DIGEST_LENGTH))
-        bdecoder.decodedData.withUnsafeBytes { dataPtr -> Void in
-            hash.withUnsafeMutableBytes { hashPtr -> Void in
-                guard let baseAddress = hashPtr.baseAddress else {
-                    fatalError("Could not get base memory address")
-                }
-                CC_SHA1(
-                    dataPtr.baseAddress,
-                    UInt32(bdecoder.decodedData.count),
-                    baseAddress.assumingMemoryBound(to: UInt8.self)
-                )
-            }
+
+        guard let sha1HashDigest = Digest(using: .sha1).update(data: bdecoder.decodedData)?.final() else {
+            fatalError("Could not create SHA1 hash digest of info dictionary")
         }
-        guard let infoHash = InfoHash(data: hash) else {
+
+        guard let infoHash = InfoHash(data: Data(sha1HashDigest)) else {
             fatalError("Could not create infoHash")
         }
         self.infoHash = infoHash
