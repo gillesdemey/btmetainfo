@@ -72,7 +72,7 @@ public struct Info: Codable, Equatable {
         name = try info.decodeIfPresent(String.self, forKey: CodingKeys.name)
         pieceLength = try info.decode(Int.self, forKey: CodingKeys.pieceLength)
         pieces = try info.decode(Data.self, forKey: CodingKeys.pieces)
-        length = try info.decode(Int.self, forKey: CodingKeys.length)
+        length = try info.decodeIfPresent(Int.self, forKey: CodingKeys.length)
 
         guard let bdecoder = decoder as? _BencodeDecoder else {
             fatalError("Decoding with wrong decoder.")
